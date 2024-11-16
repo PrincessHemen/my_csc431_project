@@ -1,56 +1,60 @@
+// Importing React's useState hook for managing local state
 import { useState } from "react";
-import { ddaLine } from "../utils/DDA";
-import { bresenhamLine } from "../utils/Bresenham";
-import { midpointCircle } from "../utils/MidpointCircle";
 
-// Define the type for the points
+// Importing algorithms for rendering graphics
+import { ddaLine } from "../utils/DDA"; // Digital Differential Analyzer (DDA) algorithm for line drawing
+import { bresenhamLine } from "../utils/Bresenham"; // Bresenham's line drawing algorithm
+import { midpointCircle } from "../utils/MidpointCircle"; // Midpoint algorithm for circle rendering
+
+// Define the type for points used in the algorithms
 interface Point {
   x: number;
   y: number;
 }
 
+// ControlPanel component handles user inputs and triggers rendering of graphics
 const ControlPanel = ({ onRender }: { onRender: (points: Point[]) => void }) => {
-  const [x1, setX1] = useState(0);
-  const [y1, setY1] = useState(0);
-  const [x2, setX2] = useState(0);
-  const [y2, setY2] = useState(0);
-  const [r, setR] = useState(0);
+  // State variables for user inputs (line endpoints and circle radius)
+  const [x1, setX1] = useState(0); // x-coordinate of the first point
+  const [y1, setY1] = useState(0); // y-coordinate of the first point
+  const [x2, setX2] = useState(0); // x-coordinate of the second point
+  const [y2, setY2] = useState(0); // y-coordinate of the second point
+  const [r, setR] = useState(0); // Radius for circle rendering
 
+  // Measures and logs the performance of a rendering algorithm
   const measurePerformance = (algorithm: string, points: Point[]) => {
-    const start = performance.now();
-    // Simulate rendering by invoking the onRender function with points
-    onRender(points);
-    const end = performance.now();
-    console.log(`Performance of ${algorithm}:`, end - start, "ms");
+    const start = performance.now(); // Start the timer
+    onRender(points); // Simulate rendering by passing the points to the parent component
+    const end = performance.now(); // End the timer
+    console.log(`Performance of ${algorithm}:`, end - start, "ms"); // Log execution time
   };
-  
 
+  // Handles rendering lines using the selected algorithm
   const handleLine = (algorithm: string) => {
     let points: Point[] = [];
-    if (algorithm === "dda") points = ddaLine(x1, y1, x2, y2);
-    else if (algorithm === "bresenham") points = bresenhamLine(x1, y1, x2, y2);
-  
-    // Measure performance before rendering
-    measurePerformance(algorithm, points);
+    if (algorithm === "dda") points = ddaLine(x1, y1, x2, y2); // Generate points using DDA
+    else if (algorithm === "bresenham") points = bresenhamLine(x1, y1, x2, y2); // Generate points using Bresenham
+
+    measurePerformance(algorithm, points); // Measure performance and trigger rendering
   };
-  
+
+  // Handles rendering a circle using the Midpoint Circle algorithm
   const handleCircle = () => {
-    const points: Point[] = midpointCircle(x1, y1, r); // Explicitly define type for points
-  
-    // Measure performance before rendering
-    measurePerformance("midpointCircle", points);
+    const points: Point[] = midpointCircle(x1, y1, r); // Generate points for the circle
+    measurePerformance("midpointCircle", points); // Measure performance and trigger rendering
   };
-  
 
   return (
+    // Container for the control panel with flexbox and responsive styles
     <div className="flex flex-col gap-4 sm:w-1/3 w-full max-w-sm">
+      {/* Input fields for line endpoints and circle radius */}
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col">
           <label className="mb-1">X1: </label>
           <input
             type="number"
             value={x1}
-            onChange={(e) => setX1(+e.target.value)}
+            onChange={(e) => setX1(+e.target.value)} // Update state with user input
             className="p-2 rounded-md bg-gray-800 border border-gray-600 text-white"
           />
         </div>
@@ -91,22 +95,24 @@ const ControlPanel = ({ onRender }: { onRender: (points: Point[]) => void }) => 
           />
         </div>
       </div>
+
+      {/* Buttons to trigger rendering with the selected algorithm */}
       <div className="flex gap-4 mt-4 justify-center">
         <button
           className="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md"
-          onClick={() => handleLine("dda")}
+          onClick={() => handleLine("dda")} // Trigger DDA line rendering
         >
           Render Line (DDA)
         </button>
         <button
           className="btn bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"
-          onClick={() => handleLine("bresenham")}
+          onClick={() => handleLine("bresenham")} // Trigger Bresenham line rendering
         >
           Render Line (Bresenham)
         </button>
         <button
           className="btn bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md"
-          onClick={handleCircle}
+          onClick={handleCircle} // Trigger circle rendering
         >
           Render Circle
         </button>
