@@ -6,13 +6,13 @@ const App = () => {
   const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto p-4">
-        <h1 className="text-4xl font-bold text-center text-blue-400 mb-6">Graphics Algorithms</h1>
-        <div className="flex gap-8 justify-center">
-          <ControlPanel onRender={setPoints} />
-          <Canvas points={points} />
-        </div>
+    <div className="min-h-screen p-4 bg-gray-900 text-white">
+      <h1 className="text-2xl font-bold text-center mb-4 sm:text-3xl md:text-4xl">
+        Graphics Algorithms
+      </h1>
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center items-center">
+        <ControlPanel onRender={setPoints} />
+        <Canvas points={points} />
       </div>
     </div>
   );

@@ -7,19 +7,15 @@ interface CanvasProps {
 
 const Canvas: React.FC<CanvasProps> = ({ points }) => {
   return (
-    <Stage width={800} height={600} className="border border-gray-700">
-      <Layer>
-        {points.map((point: { x: number; y: number }, idx: number) => (
-          <Circle
-            key={idx}
-            x={point.x}
-            y={point.y}
-            radius={2}
-            fill="white"
-          />
-        ))}
-      </Layer>
-    </Stage>
+    <div className="flex justify-center items-center w-full">
+      <Stage width={800} height={600} className="border border-gray-500">
+        <Layer>
+          {points.map((point, idx) => (
+            <Circle key={idx} x={point.x} y={point.y} radius={2} fill="white" />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
   );
 };
 
