@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ddaLine } from "../utils/DDA";
 import { bresenhamLine } from "../utils/Bresenham";
 import { midpointCircle } from "../utils/MidpointCircle";
