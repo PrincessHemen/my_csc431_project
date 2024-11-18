@@ -2,6 +2,11 @@
 // This function generates points to draw a line between two endpoints using Bresenham's algorithm.
 
 export function bresenhamLine(x1: number, y1: number, x2: number, y2: number): { x: number; y: number }[] {
+  // Input validation to ensure all inputs are valid numbers
+  if (isNaN(x1) || isNaN(y1) || isNaN(x2) || isNaN(y2)) {
+    throw new Error("Input values must be valid numbers.");
+  }
+
   // Array to store the generated points of the line
   const points = [];
 
@@ -39,6 +44,9 @@ export function bresenhamLine(x1: number, y1: number, x2: number, y2: number): {
       y1 += sy;
     }
   }
+
+  // Log the number of generated points for performance analysis
+  console.log(`Generated ${points.length} points for the line with Bresenham Algorithm.`);
 
   // Return the list of points forming the line
   return points;

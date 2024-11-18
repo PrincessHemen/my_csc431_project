@@ -2,6 +2,11 @@
 // This function calculates the points needed to draw a circle using the Midpoint Circle Algorithm.
 
 export function midpointCircle(xc: number, yc: number, r: number): { x: number; y: number }[] {
+  // Check if inputs are valid numbers
+  if (isNaN(xc) || isNaN(yc) || isNaN(r) || r < 0) {
+    throw new Error("Input values must be valid numbers, and the radius must be a non-negative number.");
+  }
+
   // Array to store the generated points
   const points = [];
 
@@ -28,6 +33,9 @@ export function midpointCircle(xc: number, yc: number, r: number): { x: number; 
       p += 2 * x - 2 * y + 1;
     }
   }
+
+  // Log the number of generated points
+  console.log(`Generated ${points.length} points for the circle using Midpoint Circle Algorithm.`);
 
   // Return the list of points forming the circle
   return points;
